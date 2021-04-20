@@ -1,0 +1,38 @@
+---
+- name: Force all notified handlers to run
+  meta: flush_handlers
+  tags:
+    - always
+
+- name: Register gitlab-runner
+  gitlab_runner:
+    api_url: '{{ gitlab_url }}'
+    api_token: '{{ gitlab_api_token }}'
+    registration_token: '{{ gitlab_ci_token }}'
+    description: '{{ gitlab_runner_description }}'
+    tag_list: '{{ gitlab_runner_tags }}'
+    access_level: '{{ gitlab_runner_access_level }}'
+    run_untagged: '{{ gitlab_runner_untagged_builds_run }}'
+    locked: '{{ gitlab_runner_lock_to_project }}'
+    validate_certs: '{{ gitlab_validate_certs | default(true) | bool }}'
+    state: present
+  become: true
+  register: gitlab_runner
+  until:
+    - gitlab_runner.runner.active is defined
+    - gitlab_runner.runner.active | bool
+  when:
+    - not gitlab_runner_skip_registration|bool
+    - gitlab_ci_token | length
+  no_log: '{{ no_logs | default(true) | bool }}'
+  tags:
+    - always
+
+- name: Create config.toml file using jinja2
+  template:
+    src: config.toml.j2
+    dest: /etc/gitlab-runner/config.toml
+  when:
+    - not gitlab_runner_skip_registration
+    - gitlab_ci_token | length
+  become: true

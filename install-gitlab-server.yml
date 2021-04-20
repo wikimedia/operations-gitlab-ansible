@@ -1,0 +1,6 @@
+---
+- name: Install Gitlab Server
+  hosts: gitlab_servers
+  become: true
+  roles:
+    - gitlab_server

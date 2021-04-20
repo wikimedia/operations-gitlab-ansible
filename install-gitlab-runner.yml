@@ -1,0 +1,6 @@
+---
+- name: Install Gitlab Runner
+  hosts: gitlab_runners
+  become: true
+  roles:
+    - gitlab_runner

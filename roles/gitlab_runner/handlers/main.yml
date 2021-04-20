@@ -1,0 +1,12 @@
+---
+# handlers file for ansible-role-gitlab-runner
+
+- name: restart gitlab-runner
+  service:
+    name: gitlab-runner
+    state: restarted
+    enabled: true
+  listen: kick gitlab-runner
+  become: true
+  tags:
+    - always

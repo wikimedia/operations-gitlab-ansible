@@ -1,0 +1,36 @@
+---
+- name: Become section
+  block:
+    - name: Install EPEL repo
+      yum:
+        name: '{{ epel_repository_url }}'
+        state: present
+      register: install_epel
+      until: install_epel is succeeded
+
+    - name: Import EPEL GPG key
+      rpm_key:
+        key: '{{ epel_rpm_key }}'
+        state: present
+      register: install_epel_key
+      until: install_epel_key is succeeded
+
+    - name: Add GitLab Runner repository
+      yum_repository:
+        name: runner_{{ gitlab_runner_package }}
+        baseurl: '{{ gitlab_runner_repo }}'
+        gpgcheck: false
+        repo_gpgcheck: false
+        gpgkey: '{{ gitlab_runner_gpg }}'
+        sslverify: true
+        sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+        metadata_expire: '300'
+        description: GitLab Runner Stable
+  become: true
+  tags:
+    - always
+
+- name: Adding selinux support
+  include_tasks: selinux-support.yml
+  tags:
+    - always

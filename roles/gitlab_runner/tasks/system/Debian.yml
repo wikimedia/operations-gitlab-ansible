@@ -1,0 +1,22 @@
+---
+- name: Become section
+  block:
+    - name: Add universe repository for Ubuntu
+      apt_repository:
+        repo: 'deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe'
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Add GitLab Runner GPG key
+      apt_key:
+        url: '{{ gitlab_runner_gpg }}'
+      register: apt_key_result
+      until: apt_key_result is succeeded
+
+    - name: Add GitLab Runner repository
+      apt_repository:
+        repo: '{{ gitlab_runner_repo }}'
+        validate_certs: true
+  become: true
+  tags:
+    - always

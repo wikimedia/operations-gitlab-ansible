@@ -1,0 +1,7 @@
+---
+gitlab_host: gitlab-test.wmcloud.org
+gitlab_api_token: xxxxxxxxxxxxxxxxxxx
+gitlab_ci_token: xxxxxxxxxxxxxxxxxxx
+gitlab_validate_certs: false
+gitlab_runner_description: gitlab-runner-test
+gitlab_runner_executor: docker

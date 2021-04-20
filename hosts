@@ -1,0 +1,5 @@
+[gitlab_servers]
+gitlab-server-test ansible_host=gitlab-ansible-test.gitlab-test.eqiad1.wikimedia.cloud
+
+[gitlab_runners]
+gitlab-runner-test ansible_host=wmf-gitlab-test.gluzdov.com
