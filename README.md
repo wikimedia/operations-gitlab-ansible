@@ -67,7 +67,7 @@ GitLab Server control:
 * GitLab configuration and secrets backup go to `/etc/gitlab/config_backup`
 * Valid secrets backup is required to adequately restore the data backup, including encrypted information for two-factor authentication and the CI/CD secure variables
 * It is recommended to store data backup and secrets backup separately for securiry reasons
-* GitLab Server peiodically removes old backup data. Keep time is configured in `gitlab_backup_keep_time` playbook variable
+* GitLab Server periodically removes old backup data. The keep time is configured in `gitlab_backup_keep_time` playbook variable
 * GitLab Backup and Restore documentation can be found at https://docs.gitlab.com/omnibus/settings/backups.html
 * GitLab Restore for Omnibus installations documentation can be found at https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations
 
