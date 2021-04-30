@@ -4,15 +4,17 @@ gitlab_domain: "gitlab-test.wmcloud.org"
 gitlab_external_url: "https://{{ gitlab_domain }}/"
 gitlab_git_data_dir: "/var/opt/gitlab/git-data"
 gitlab_edition: "gitlab-ce"
-gitlab_version: "13.9.4-ce.0"
+gitlab_version: "13.11.2-ce.0"
 gitlab_config_template: "gitlab.rb.j2"
 gitlab_crontab_template: "gitlab-crontab.j2"
+gitlab_sshd_template: "gitlab-sshd-config.j2"
 gitlab_install_repository: "false"
 gitlab_install_dependencies: "false"
 
 # Backups
 gitlab_backup_path: "/var/opt/gitlab/backups"
 gitlab_backup_keep_time: "604800"
+gitlab_backup_config_keep_num: "6"
 
 gitlab_backup_enable: "true"
 gitlab_backup_enable_partial: "true"
@@ -44,11 +46,11 @@ gitlab_ldap_base: "DC=example,DC=com"
 
 # SMTP Configuration
 gitlab_smtp_enable: "false"
-gitlab_smtp_address: "smtp.server"
-gitlab_smtp_port: "465"
-gitlab_smtp_user_name: "smtp_user"
-gitlab_smtp_password: "smtp_password"
-gitlab_smtp_domain: "example.com"
+gitlab_smtp_address: "localhost"
+gitlab_smtp_port: "25"
+gitlab_smtp_user_name: null
+gitlab_smtp_password: null
+gitlab_smtp_domain: "localhost"
 gitlab_smtp_authentication: "login"
 gitlab_smtp_enable_starttls_auto: "true"
 gitlab_smtp_tls: "false"
@@ -78,7 +80,7 @@ gitlab_download_validate_certs: true
 gitlab_default_theme: '2'
 
 # Email configuration.
-gitlab_email_enabled: "false"
+gitlab_email_enabled: "true"
 gitlab_email_from: "gitlab@{{ gitlab_domain }}"
 gitlab_email_display_name: "Gitlab"
 gitlab_email_reply_to: "gitlab@{{ gitlab_domain }}"
@@ -88,3 +90,52 @@ gitlab_registry_enable: "false"
 gitlab_registry_external_url: "https://{{ gitlab_domain }}:4567"
 gitlab_registry_nginx_ssl_certificate: "/etc/gitlab/ssl/gitlab.crt"
 gitlab_registry_nginx_ssl_certificate_key: "/etc/gitlab/ssl/gitlab.key"
+
+# SSH GitLab-specific separate daemon configuration
+gitlab_sshd_enable: "true"
+gitlab_sshd_listen:
+  - 0.0.0.0
+gitlab_sshd_port: "2222"
+gitlab_sshd_login_grace_time: "60"
+gitlab_sshd_host_keys:
+  - /etc/ssh/ssh_host_rsa_key
+  - /etc/ssh/ssh_host_ecdsa_key
+  - /etc/ssh/ssh_host_ed25519_key
+gitlab_sshd_privilege_separation: "sandbox"
+gitlab_sshd_kex_algorithms:
+  - curve25519-sha256@libssh.org
+  - diffie-hellman-group-exchange-sha256
+gitlab_sshd_macs:
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+  - umac-128-etm@openssh.com
+  - hmac-sha2-512,hmac-sha2-256
+  - umac-128@openssh.com
+gitlab_sshd_ciphers: 
+  - chacha20-poly1305@openssh.com
+  - aes256-gcm@openssh.com
+  - aes128-gcm@openssh.com
+  - aes256-ctr
+  - aes192-ctr
+  - aes128-ctr
+gitlab_sshd_syslog_facility: "AUTH"
+gitlab_sshd_log_level: "VERBOSE"
+gitlab_sshd_accept_env: "LANG LC_*"
+gitlab_sshd_max_startups: "10:30:60"
+gitlab_sshd_max_sessions: 10
+gitlab_sshd_max_auth_tries: 3
+
+# CAS integration
+gitlab_cas_enable: "true"
+gitlab_cas_external: "true"
+gitlab_cas_auto_sign_in: "false"
+gitlab_cas_auto_create_users: "true"
+gitlab_cas_url: "https://idp.wmcloud.org"
+gitlab_cas_login_url: "/login"
+gitlab_cas_logout_url: "/logout"
+gitlab_cas_service_validate_url: "/p3/serviceValidate"
+gitlab_cas_name: "cas3"
+gitlab_cas_label: "Wikimedia Dev Account"
+gitlab_cas_sync_email: "true"
+gitlab_cas_sync_profile: "true"
+gitlab_cas_sync_attrs: "true"

@@ -26,11 +26,11 @@
 {% if gitlab_backup_enable_partial == "true" %}
 
 # Partial Backup
-7 1-23 * * *  root  /usr/bin/gitlab-backup create CRON=1 STRATEGY=copy GZIP_RSYNCABLE={{ gitlab_backup_gzip_rsyncable }} SKIP=uploads,builds,artifacts,lfs,registry,pages GITLAB_BACKUP_MAX_CONCURRENCY={{ gitlab_backup_max_concurrency }} GITLAB_BACKUP_MAX_STORAGE_CONCURRENCY={{ gitlab_backup_max_storage_concurrency }}
+7 19 * * *    root  /usr/bin/gitlab-backup create CRON=1 STRATEGY=copy GZIP_RSYNCABLE={{ gitlab_backup_gzip_rsyncable }} SKIP=uploads,builds,artifacts,lfs,registry,pages GITLAB_BACKUP_MAX_CONCURRENCY={{ gitlab_backup_max_concurrency }} GITLAB_BACKUP_MAX_STORAGE_CONCURRENCY={{ gitlab_backup_max_storage_concurrency }}
 {% endif %}
 {% if gitlab_backup_enable_config == "true" %}
 
 # Configuration and secrets backup
-0 0 * * *     root  /usr/bin/gitlab-ctl backup-etc >/dev/null
+0 0 * * *     root  /usr/bin/gitlab-ctl backup-etc >/dev/null && (ls -tp | grep -v '/$' | tail -n +{{ gitlab_backup_config_keep_num | int }} | xargs -d '\n' -r rm --)
 {% endif %}
 {% endif %}

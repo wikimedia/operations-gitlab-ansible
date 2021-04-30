@@ -1,2 +1,5 @@
 ---
 gitlab_domain: gitlab-test.wmcloud.org
+gitlab_backup_path: /srv/gitlab-backup
+gitlab_sshd_enable: true
+gitlab_sshd_port: 20

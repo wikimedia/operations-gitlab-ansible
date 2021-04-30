@@ -61,15 +61,21 @@ gitlab_rails['smtp_user_name'] = '{{ gitlab_smtp_user_name }}'
 {% if gitlab_smtp_password %}
 gitlab_rails['smtp_password'] = '{{ gitlab_smtp_password }}'
 {% endif %}
+{% if gitlab_smtp_domain %}
 gitlab_rails['smtp_domain'] = '{{ gitlab_smtp_domain }}'
-{% if gitlab_smtp_authentication %}
+{% endif %}
+{% if gitlab_smtp_user_name and gitlab_smtp_authentication %}
 gitlab_rails['smtp_authentication'] = '{{ gitlab_smtp_authentication }}'
 {% endif %}
 gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto }}
 gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls }}
 gitlab_rails['smtp_openssl_verify_mode'] = '{{ gitlab_smtp_openssl_verify_mode }}'
+{% if gitlab_smtp_ca_path %}
 gitlab_rails['smtp_ca_path'] = '{{ gitlab_smtp_ca_path }}'
+{% endif %}
+{% if gitlab_smtp_ca_file %}
 gitlab_rails['smtp_ca_file'] = '{{ gitlab_smtp_ca_file }}'
+{% endif %}
 {% endif %}
 
 # 2-way SSL Client Authentication.
@@ -102,6 +108,43 @@ registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_nginx_ssl_certificat
 {% endfor %}
 
 {% endfor %}
+{% endif %}
+
+{% if gitlab_cas_enable|bool %}
+gitlab_rails['omniauth_allow_single_sign_on'] = ['{{ gitlab_cas_name }}']
+{% if gitlab_cas_auto_sign_in|bool  %}
+gitlab_rails['omniauth_auto_sign_in_with_provider'] = '{{ gitlab_cas_name }}'
+{% endif %}
+{% if gitlab_cas_auto_create_users|bool %}
+gitlab_rails['omniauth_block_auto_created_users'] = false
+{% endif %}
+{% if gitlab_cas_external|bool %}
+gitlab_rails['omniauth_external_providers'] = ['{{ gitlab_cas_name }}']
+{% endif %}
+{% if gitlab_cas_sync_email|bool %}
+gitlab_rails['omniauth_sync_email_from_provider'] = ['{{ gitlab_cas_name }}']
+{% endif %}
+{% if gitlab_cas_sync_profile|bool %}
+gitlab_rails['omniauth_sync_profile_from_provider'] = ['{{ gitlab_cas_name }}']
+{% endif %}
+{% if gitlab_cas_sync_attrs == "true" %}
+gitlab_rails['omniauth_sync_profile_attributes'] = true
+{% elif gitlab_cas_sync_attrs | default([]) | length %}
+gitlab_rails['omniauth_sync_profile_attributes'] = {{ gitlab_cas_sync_attrs | to_json }}
+{% endif %}
+
+gitlab_rails['omniauth_providers'] = [
+  {
+    "name" => "{{ gitlab_cas_name }}",
+    "label" => "{{ gitlab_cas_label }}",
+    "args" => {
+      "url" => '{{ gitlab_cas_url }}',
+      "login_url" => '{{ gitlab_cas_login_url }}',
+      "service_validate_url" => '{{ gitlab_cas_service_validate_url }}',
+      "logout_url" => '{{ gitlab_cas_logout_url }}'
+    }
+  }
+]
 {% endif %}
 
 # To change other settings, see:

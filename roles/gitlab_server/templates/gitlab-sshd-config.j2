@@ -1,0 +1,85 @@
+# {{ ansible_managed }}
+
+# Package generated configuration file
+# See the sshd_config(5) manpage for details
+
+# What ports, IPs and protocols we listen for
+Port {{ gitlab_sshd_port }}
+# Use these options to restrict which interfaces/protocols sshd will bind to
+{% for address in gitlab_sshd_listen %}
+{% if address != '' %}
+ListenAddress {{ address }}
+{% endif %}
+{% endfor %}
+Protocol 2
+# HostKeys for protocol version 2
+{% for ssh_server_host_key in gitlab_sshd_host_keys %}
+{% if ssh_server_host_key != '' %}
+HostKey {{ ssh_server_host_key }}
+{% endif %}
+{% endfor %}
+
+# Security options
+{% if gitlab_sshd_ciphers | default([]) | length %}
+Ciphers {{ gitlab_sshd_ciphers | join(',') }}
+{% endif %}
+{% if gitlab_sshd_kex_algorithms | default([]) | length %}
+KexAlgorithms {{ gitlab_sshd_kex_algorithms | join(',') }}
+{% endif %}
+{% if gitlab_sshd_macs | default([]) | length %}
+MACs {{ gitlab_sshd_macs | join(',') }}
+{% endif %}
+
+# Logging
+SyslogFacility {{ gitlab_sshd_syslog_facility }}
+LogLevel {{ gitlab_sshd_log_level }}
+
+PubkeyAuthentication yes
+
+#AuthorizedKeysFile .ssh/authorized_keys
+
+IgnoreRhosts yes
+HostbasedAuthentication no
+IgnoreUserKnownHosts yes
+
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+KerberosAuthentication no
+GSSAPIAuthentication no
+
+StrictModes yes
+PermitRootLogin no
+PermitTunnel no
+PermitUserEnvironment no
+PermitTTY no
+AllowAgentForwarding no
+AllowTcpForwarding no
+X11Forwarding no
+GatewayPorts no
+PrintMotd no
+PrintLastLog no
+TCPKeepAlive yes
+Banner none
+UseDNS yes
+UsePAM no
+
+{% if gitlab_sshd_login_grace_time != '' %}
+LoginGraceTime {{ gitlab_sshd_login_grace_time }}
+{% endif %}
+
+{% if gitlab_sshd_max_startups != '' %}
+MaxStartups {{ gitlab_sshd_max_startups }}
+{% endif %}
+{% if gitlab_sshd_max_sessions != '' %}
+MaxSessions {{ gitlab_sshd_max_sessions }}
+{% endif %}
+{% if gitlab_sshd_max_auth_tries != '' %}
+MaxAuthTries {{ gitlab_sshd_max_auth_tries }}
+{% endif %}
+
+# Allow client to pass locale environment variables
+{% if gitlab_sshd_accept_env != '' %}
+AcceptEnv {{ gitlab_sshd_accept_env }}
+{% endif %}
+
+AllowUsers git

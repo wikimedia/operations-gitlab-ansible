@@ -79,7 +79,7 @@
     owner: root
     group: root
     mode: 0700
-  when: gitlab_create_self_signed_cert
+  when: gitlab_create_self_signed_cert|bool
 
 - name: Create self-signed certificate.
   command: >
@@ -108,3 +108,54 @@
     group: root
     mode: 0640
 
+- name: Install GitLab sshd - create config
+  template:
+    src: "{{ gitlab_sshd_template }}"
+    dest: /etc/ssh/sshd_gitlab
+    owner: root
+    group: root
+    mode: 0440
+    validate: /usr/sbin/sshd -t -f "%s"
+  when: gitlab_sshd_enable|bool
+
+- name: Install GitLab sshd - create service
+  template:
+    src: "gitlab-sshd-service.j2"
+    dest: /etc/systemd/system/sshd-gitlab.service
+    force: yes
+    owner: root
+    group: root
+    mode: 0644
+  when: gitlab_sshd_enable|bool
+
+- name: Install GitLab sshd - enable service
+  systemd:
+    name: sshd-gitlab
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  when: gitlab_sshd_enable|bool
+
+- name: Remove GitLab sshd - stop service
+  systemd:
+    name: sshd-gitlab
+    enabled: no
+    state: stopped
+  when: not gitlab_sshd_enable|bool
+
+- name: Remove GitLab sshd - remove config
+  file:
+    path: /etc/ssh/sshd_gitlab
+    state: absent
+  when: not gitlab_sshd_enable|bool
+
+- name: Remove GitLab sshd - remove service
+  file:
+    path: /etc/systemd/system/sshd-gitlab.service
+    state: absent
+  when: not gitlab_sshd_enable|bool
+
+- name: Remove GitLab sshd - reload systemd
+  systemd:
+    daemon_reload: yes
+  when: not gitlab_sshd_enable|bool
