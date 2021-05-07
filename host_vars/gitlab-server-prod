@@ -1,0 +1,14 @@
+---
+gitlab_domain: gitlab.wmcloud.org
+gitlab_backup_path: /srv/gitlab-backup
+gitlab_sshd_enable: true
+gitlab_sshd_port: 22
+gitlab_sshd_listen:
+  - 208.80.154.14
+  - 2620:0:861:1:208:80:154:14
+gitlab_cas_auto_sign_in: true
+gitlab_self_signed_cert_enable: false
+gitlab_ssl_certificate: /etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt
+gitlab_ssl_certificate_key: /etc/acmecerts/gitlab/live/ec-prime256v1.key
+gitlab_registry_nginx_ssl_certificate: /etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt
+gitlab_registry_nginx_ssl_certificate_key: /etc/acmecerts/gitlab/live/ec-prime256v1.key

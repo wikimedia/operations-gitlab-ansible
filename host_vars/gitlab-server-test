@@ -2,4 +2,12 @@
 gitlab_domain: gitlab-test.wmcloud.org
 gitlab_backup_path: /srv/gitlab-backup
 gitlab_sshd_enable: true
-gitlab_sshd_port: 20
+gitlab_sshd_port: 2222
+gitlab_sshd_listen:
+  - 0.0.0.0
+gitlab_cas_auto_sign_in: true
+gitlab_self_signed_cert_enable: true
+gitlab_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_domain }}.crt"
+gitlab_ssl_certificate_key: "/etc/gitlab/ssl/{{ gitlab_domain }}.key"
+gitlab_registry_nginx_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_domain }}.crt"
+gitlab_registry_nginx_ssl_certificate_key: "/etc/gitlab/ssl/{{ gitlab_domain }}.key"
