@@ -79,7 +79,7 @@
     owner: root
     group: root
     mode: 0700
-  when: gitlab_create_self_signed_cert|bool
+  when: gitlab_self_signed_cert_enable|bool
 
 - name: Create self-signed certificate.
   command: >
@@ -89,7 +89,7 @@
     -addext "subjectAltName={{ gitlab_self_signed_cert_san }}"
     -addext "extendedKeyUsage=serverAuth,clientAuth"
     creates={{ gitlab_ssl_certificate }}
-  when: gitlab_create_self_signed_cert|bool
+  when: gitlab_self_signed_cert_enable|bool
 
 - name: Copy GitLab configuration file.
   template:
@@ -108,20 +108,46 @@
     group: root
     mode: 0640
 
-- name: Install GitLab sshd - create config
+- name: Install GitLab sshd - create config directory
+  file:
+    path: "{{ gitlab_sshd_config_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: gitlab_sshd_enable|bool
+
+- name: Install GitLab sshd - create config file
   template:
     src: "{{ gitlab_sshd_template }}"
-    dest: /etc/ssh/sshd_gitlab
+    dest: "{{ gitlab_sshd_config_path }}/sshd_gitlab"
     owner: root
     group: root
     mode: 0440
     validate: /usr/sbin/sshd -t -f "%s"
   when: gitlab_sshd_enable|bool
 
+- name: Install GitLab sshd - create moduli file
+  copy:
+    remote_src: yes
+    src: "/etc/ssh/moduli"
+    dest: "{{ gitlab_sshd_config_path }}/moduli"
+    owner: root
+    group: root
+    mode: preserve
+  when: gitlab_sshd_enable|bool
+
+- name: Install GitLab sshd - create host keys
+  command:
+    cmd: ssh-keygen -q -f "{{ item }}" -N '' -t "{{ 'ed25519' if 'ed25519' in item else 'ecdsa' if 'ecdsa' in item else 'rsa' }}"
+    creates: "{{ item }}"
+  when: gitlab_sshd_enable|bool
+  loop: "{{ gitlab_sshd_host_keys }}"
+
 - name: Install GitLab sshd - create service
   template:
     src: "gitlab-sshd-service.j2"
-    dest: /etc/systemd/system/sshd-gitlab.service
+    dest: /etc/systemd/system/ssh-gitlab.service
     force: yes
     owner: root
     group: root
@@ -130,7 +156,7 @@
 
 - name: Install GitLab sshd - enable service
   systemd:
-    name: sshd-gitlab
+    name: ssh-gitlab
     enabled: yes
     state: restarted
     daemon_reload: yes
@@ -138,20 +164,26 @@
 
 - name: Remove GitLab sshd - stop service
   systemd:
-    name: sshd-gitlab
+    name: ssh-gitlab
     enabled: no
     state: stopped
   when: not gitlab_sshd_enable|bool
 
-- name: Remove GitLab sshd - remove config
+- name: Remove GitLab sshd - remove config file
   file:
-    path: /etc/ssh/sshd_gitlab
+    path: "{{ gitlab_sshd_config_path }}/sshd_gitlab"
+    state: absent
+  when: not gitlab_sshd_enable|bool
+
+- name: Remove GitLab sshd - remove config directory
+  file:
+    path: "{{ gitlab_sshd_config_path }}"
     state: absent
   when: not gitlab_sshd_enable|bool
 
 - name: Remove GitLab sshd - remove service
   file:
-    path: /etc/systemd/system/sshd-gitlab.service
+    path: /etc/systemd/system/ssh-gitlab.service
     state: absent
   when: not gitlab_sshd_enable|bool
 

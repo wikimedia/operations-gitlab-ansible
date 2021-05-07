@@ -2,13 +2,13 @@
 Description=OpenBSD Secure Shell server (GitLab endpoint)
 Documentation=man:sshd(8) man:sshd_config(5)
 After=network.target auditd.service
-ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+ConditionPathExists=!{{ gitlab_sshd_config_path }}/sshd_not_to_be_run
 
 [Service]
 EnvironmentFile=-/etc/default/ssh
-ExecStartPre=/usr/sbin/sshd -t -f "/etc/ssh/sshd_gitlab"
-ExecStart=/usr/sbin/sshd -D $SSHD_OPTS -f "/etc/ssh/sshd_gitlab"
-ExecReload=/usr/sbin/sshd -t -f "/etc/ssh/sshd_gitlab"
+ExecStartPre=/usr/sbin/sshd -t -f "{{ gitlab_sshd_config_path }}/sshd_gitlab"
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS -f "{{ gitlab_sshd_config_path }}/sshd_gitlab"
+ExecReload=/usr/sbin/sshd -t -f "{{ gitlab_sshd_config_path }}/sshd_gitlab"
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure

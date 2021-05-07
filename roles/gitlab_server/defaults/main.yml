@@ -25,13 +25,13 @@ gitlab_backup_max_storage_concurrency: "1"
 
 # SSL Configuration.
 gitlab_redirect_http_to_https: "true"
-gitlab_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_domain }}.crt"
-gitlab_ssl_certificate_key: "/etc/gitlab/ssl/{{ gitlab_domain }}.key"
+gitlab_ssl_certificate: "/etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt"
+gitlab_ssl_certificate_key: "/etc/acmecerts/gitlab/live/ec-prime256v1.key"
 
 # SSL Self-signed Certificate Configuration.
-gitlab_create_self_signed_cert: "true"
+gitlab_self_signed_cert_enable: "false"
 gitlab_self_signed_cert_san: "DNS:{{ gitlab_domain }}"
-gitlab_self_signed_cert_subj: "/C=US/ST=Missouri/L=Saint Louis/O=IT/CN={{ gitlab_domain }}"
+gitlab_self_signed_cert_subj: "/CN={{ gitlab_domain }}"
 gitlab_self_signed_cert_days: "365"
 
 # LDAP Configuration.
@@ -88,20 +88,20 @@ gitlab_email_reply_to: "gitlab@{{ gitlab_domain }}"
 # Registry configuration.
 gitlab_registry_enable: "false"
 gitlab_registry_external_url: "https://{{ gitlab_domain }}:4567"
-gitlab_registry_nginx_ssl_certificate: "/etc/gitlab/ssl/gitlab.crt"
-gitlab_registry_nginx_ssl_certificate_key: "/etc/gitlab/ssl/gitlab.key"
+gitlab_registry_nginx_ssl_certificate: "{{ gitlab_ssl_certificate }}"
+gitlab_registry_nginx_ssl_certificate_key: "{{ gitlab_ssl_certificate_key }}"
 
 # SSH GitLab-specific separate daemon configuration
 gitlab_sshd_enable: "true"
+gitlab_sshd_config_path: "/etc/ssh-gitlab"
+gitlab_sshd_port: "22"
 gitlab_sshd_listen:
   - 0.0.0.0
-gitlab_sshd_port: "2222"
 gitlab_sshd_login_grace_time: "60"
 gitlab_sshd_host_keys:
-  - /etc/ssh/ssh_host_rsa_key
-  - /etc/ssh/ssh_host_ecdsa_key
-  - /etc/ssh/ssh_host_ed25519_key
-gitlab_sshd_privilege_separation: "sandbox"
+  - "{{ gitlab_sshd_config_path }}/ssh_host_rsa_key"
+  - "{{ gitlab_sshd_config_path }}/ssh_host_ecdsa_key"
+  - "{{ gitlab_sshd_config_path }}/ssh_host_ed25519_key"
 gitlab_sshd_kex_algorithms:
   - curve25519-sha256@libssh.org
   - diffie-hellman-group-exchange-sha256
