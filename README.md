@@ -27,13 +27,13 @@ GitLab Server paths:
 
 GitLab Server control:
 
-* GitLab platform can be controlled with gitlab-ctl CLI command. Most often used opreands are `status`, `start`, `stop`, `reconfigure`, `restart`, `backup-etc`
-* there is also a command to delete all data and start from scratch (*use with great caution!*): `gitlab-ctl cleanse`
+* GitLab platform can be controlled with gitlab-ctl CLI command. Most often used operands are `status`, `start`, `stop`, `reconfigure`, `restart`, `backup-etc`
+* There is also a command to delete all data and start from scratch (*use with great caution!*): `gitlab-ctl cleanse`
 * GitLab backup (and restore!) can be made with `gitlab-backup` CLI command
 
 ## Facts to know about GitLab Runners
 
-* GitLab Runner is is an application that works with GitLab CI/CD to run jobs in a pipeline
+* GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pipeline
 * GitLab Runner documentation can be found at https://docs.gitlab.com/runner/
 * GitLab Runners are (usually) installed in a host separated from main GitLab server installation
 * GitLab Runner communicates with GitLab server via http[s] (connection is from Runner to Server)
@@ -51,7 +51,7 @@ GitLab Server control:
 
 ## Automated GitLab Runner installation
 
-* GitLab Runner is installed and configured with provided Ansible playbook which can be found on S&F's GotLab (`git clone git@gitlab.gluzdov.com:wmf_gitlab/ansible.git`)
+* GitLab Runner is installed and configured with provided Ansible playbook which can be found on S&F's GitLab (`git clone git@gitlab.gluzdov.com:wmf_gitlab/ansible.git`)
 * Hosts to deploy GitLab Runners need to be configured in `[gitlab_runners]` section of 'hosts' file (it's an Ansible inventory configuration file)
 * Ansible playbook parameters are set up on host-by-host basis in `host_vars/<hostname>` YAML files
 * List of available playbook parameters can be found in `gitlab_runner/defaults/main.yml` file
@@ -60,14 +60,14 @@ GitLab Server control:
 
 ## GitLab Server backup
 
-* GitLab Server ansible deploy automatically configures periodic backup runs by intalling crontab into `/etc/cron.d/gitlab` file
+* GitLab Server ansible deploy automatically configures periodic backup runs by installing crontab into `/etc/cron.d/gitlab` file
 * Periodic backup runs are initiated by cron daemon from root user
 * GitLab Server backup consists of two parts: 1) data backup and 2) configuration and secrets backup
 * GitLab data backups by default go to `/var/opt/gitlab/backup`
 * GitLab configuration and secrets backup go to `/etc/gitlab/config_backup`
 * Valid secrets backup is required to adequately restore the data backup, including encrypted information for two-factor authentication and the CI/CD secure variables
 * It is recommended to store data backup and secrets backup separately for securiry reasons
-* GitLab Server peiodically removes old backup data. the keep time is configured in `gitlab_backup_keep_time` playbook variable
+* GitLab Server peiodically removes old backup data. Keep time is configured in `gitlab_backup_keep_time` playbook variable
 * GitLab Backup and Restore documentation can be found at https://docs.gitlab.com/omnibus/settings/backups.html
 * GitLab Restore for Omnibus installations documentation can be found at https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations
 
