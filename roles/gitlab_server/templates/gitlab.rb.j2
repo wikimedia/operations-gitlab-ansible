@@ -133,11 +133,29 @@ gitlab_rails['omniauth_sync_profile_attributes'] = true
 gitlab_rails['omniauth_sync_profile_attributes'] = {{ gitlab_cas_sync_attrs | to_json }}
 {% endif %}
 
+{% if gitlab_cas_session_duration != '' %}
+gitlab_rails['omniauth_cas3_session_duration'] = {{ gitlab_cas_session_duration }}
+{% endif %}
+
+# See https://github.com/tduehr/omniauth-cas3
+
 gitlab_rails['omniauth_providers'] = [
   {
     "name" => "{{ gitlab_cas_name }}",
     "label" => "{{ gitlab_cas_label }}",
     "args" => {
+{% if gitlab_cas_uid_field %}
+      "uid_key" => '{{ gitlab_cas_uid_field }}',
+{% endif %}
+{% if gitlab_cas_uid_key %}
+      "uid_key" => '{{ gitlab_cas_uid_key }}',
+{% endif %}
+{% if gitlab_cas_email_key %}
+      "email_key" => '{{ gitlab_cas_email_key }}',
+{% endif %}
+{% if gitlab_cas_name_key %}
+      "name_key" => '{{ gitlab_cas_name_key }}'
+{% endif %}
       "url" => '{{ gitlab_cas_url }}',
       "login_url" => '{{ gitlab_cas_login_url }}',
       "service_validate_url" => '{{ gitlab_cas_service_validate_url }}',
