@@ -48,6 +48,7 @@ GitLab Server control:
 * List of available playbook parameters can be found in `gitlab_server/defaults/main.yml` file
 * Before running Ansible playbook it needs checking the ability of ssh-ing the target hosts and have sudo permissions there
 * To run Ansible playbook just execute `install-gitlab-server.sh` script
+* Public sign in should be disabled manually in the UI after installation
 
 ## Automated GitLab Runner installation
 
