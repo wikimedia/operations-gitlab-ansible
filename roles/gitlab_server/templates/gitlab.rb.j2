@@ -144,17 +144,35 @@ gitlab_rails['omniauth_providers'] = [
     "name" => "{{ gitlab_cas_name }}",
     "label" => "{{ gitlab_cas_label }}",
     "args" => {
-{% if gitlab_cas_uid_field %}
+{% if gitlab_cas_uid_field | default(false) %}
       "uid_key" => '{{ gitlab_cas_uid_field }}',
 {% endif %}
-{% if gitlab_cas_uid_key %}
+{% if gitlab_cas_uid_key | default(false) %}
       "uid_key" => '{{ gitlab_cas_uid_key }}',
 {% endif %}
-{% if gitlab_cas_email_key %}
+{% if gitlab_cas_email_key | default(false) %}
       "email_key" => '{{ gitlab_cas_email_key }}',
 {% endif %}
-{% if gitlab_cas_name_key %}
-      "name_key" => '{{ gitlab_cas_name_key }}'
+{% if gitlab_cas_name_key | default(false) %}
+      "name_key" => '{{ gitlab_cas_name_key }}',
+{% endif %}
+{% if gitlab_cas_nickname_key | default(false) %}
+      "nickname_key" => '{{ gitlab_cas_nickname_key }}',
+{% endif %}
+{% if gitlab_cas_location_key | default(false) %}
+      "location_key" => '{{ gitlab_cas_location_key }}',
+{% endif %}
+{% if gitlab_cas_first_name_key | default(false) %}
+      "name_key" => '{{gitlab_cas_first_name_key }}',
+{% endif %}
+{% if gitlab_cas_last_name_key | default(false) %}
+      "name_key" => '{{ gitlab_cas_last_name_key }}',
+{% endif %}
+{% if gitlab_cas_phone_key | default(false) %}
+      "phone_key" => '{{ gitlab_cas_phone_key }}',
+{% endif %}
+{% if gitlab_cas_image_key | default(false) %}
+      "image_key" => '{{ gitlab_cas_image_key }}',
 {% endif %}
       "url" => '{{ gitlab_cas_url }}',
       "login_url" => '{{ gitlab_cas_login_url }}',
