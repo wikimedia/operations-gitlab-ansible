@@ -21,7 +21,7 @@
 {% if gitlab_backup_enable == "true" %}
 
 # Full Backup
-4 0 * * *     root  /usr/bin/gitlab-backup create CRON=1 STRATEGY=copy GZIP_RSYNCABLE={{ gitlab_backup_gzip_rsyncable }} GITLAB_BACKUP_MAX_CONCURRENCY={{ gitlab_backup_max_concurrency }} GITLAB_BACKUP_MAX_STORAGE_CONCURRENCY={{ gitlab_backup_max_storage_concurrency }}
+4 0 * * *     root  /usr/bin/gitlab-backup create CRON=1 STRATEGY=copy GZIP_RSYNCABLE={{ gitlab_backup_gzip_rsyncable }} SKIP=builds,artifacts,registry GITLAB_BACKUP_MAX_CONCURRENCY={{ gitlab_backup_max_concurrency }} GITLAB_BACKUP_MAX_STORAGE_CONCURRENCY={{ gitlab_backup_max_storage_concurrency }}
 {% endif %}
 {% if gitlab_backup_enable_partial == "true" %}
 
