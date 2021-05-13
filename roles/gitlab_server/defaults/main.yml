@@ -1,6 +1,6 @@
 ---
-# General config.
-gitlab_domain: "gitlab-test.wmcloud.org"
+# General config
+gitlab_domain: "gitlab.wikimedia.org"
 gitlab_external_url: "https://{{ gitlab_domain }}/"
 gitlab_git_data_dir: "/var/opt/gitlab/git-data"
 gitlab_edition: "gitlab-ce"
@@ -17,24 +17,24 @@ gitlab_backup_keep_time: "604800"
 gitlab_backup_config_keep_num: "6"
 
 gitlab_backup_enable: "true"
-gitlab_backup_enable_partial: "true"
+gitlab_backup_enable_partial: "false"
 gitlab_backup_enable_config: "true"
 gitlab_backup_gzip_rsyncable: "yes"
 gitlab_backup_max_concurrency: "4"
 gitlab_backup_max_storage_concurrency: "1"
 
-# SSL Configuration.
+# SSL Configuration
 gitlab_redirect_http_to_https: "true"
 gitlab_ssl_certificate: "/etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt"
 gitlab_ssl_certificate_key: "/etc/acmecerts/gitlab/live/ec-prime256v1.key"
 
-# SSL Self-signed Certificate Configuration.
+# SSL Self-signed Certificate Configuration
 gitlab_self_signed_cert_enable: "false"
 gitlab_self_signed_cert_san: "DNS:{{ gitlab_domain }}"
 gitlab_self_signed_cert_subj: "/CN={{ gitlab_domain }}"
 gitlab_self_signed_cert_days: "365"
 
-# LDAP Configuration.
+# LDAP Configuration
 gitlab_ldap_enabled: "false"
 gitlab_ldap_host: "example.com"
 gitlab_ldap_port: "389"
@@ -58,14 +58,11 @@ gitlab_smtp_openssl_verify_mode: "none"
 gitlab_smtp_ca_path: "/etc/ssl/certs"
 gitlab_smtp_ca_file: "/etc/ssl/certs/ca-certificates.crt"
 
-# 2-way SSL Client Authentication support.
+# 2-way SSL Client Authentication support
 gitlab_nginx_ssl_verify_client: ""
 gitlab_nginx_ssl_client_certificate: ""
 
-# Probably best to leave this as the default, unless doing testing.
-gitlab_restart_handler_failed_when: 'gitlab_restart.rc != 0'
-
-# Dependencies.
+# Dependencies
 gitlab_dependencies:
   - openssh-server
   - curl
@@ -74,18 +71,22 @@ gitlab_dependencies:
 gitlab_dependencies_debian:
   - gnupg
 
-# Optional settings.
+# Optional settings
 gitlab_time_zone: "UTC"
 gitlab_download_validate_certs: true
 gitlab_default_theme: '2'
 
-# Email configuration.
+# Users settings
+gitlab_users_create_group: "false"
+gitlab_users_change_username: "false"
+
+# Email configuration
 gitlab_email_enabled: "true"
 gitlab_email_from: "gitlab@{{ gitlab_domain }}"
 gitlab_email_display_name: "Gitlab"
 gitlab_email_reply_to: "gitlab@{{ gitlab_domain }}"
 
-# Registry configuration.
+# Registry configuration
 gitlab_registry_enable: "false"
 gitlab_registry_external_url: "https://{{ gitlab_domain }}:4567"
 gitlab_registry_nginx_ssl_certificate: "{{ gitlab_ssl_certificate }}"
@@ -131,7 +132,7 @@ gitlab_cas_enable: "true"
 gitlab_cas_external: "true"
 gitlab_cas_auto_sign_in: "false"
 gitlab_cas_auto_create_users: "true"
-gitlab_cas_url: "https://idp.wmcloud.org"
+gitlab_cas_url: "https://idp.wikimedia.org"
 gitlab_cas_login_url: "/login"
 gitlab_cas_logout_url: "/logout"
 gitlab_cas_service_validate_url: "/p3/serviceValidate"
@@ -142,11 +143,11 @@ gitlab_cas_sync_email: "true"
 gitlab_cas_sync_profile: "true"
 gitlab_cas_sync_attrs: "true"
 gitlab_cas_uid_field: "cn"
-gitlab_cas_uid_key: "uid"
-gitlab_cas_name_key: "sn"
+gitlab_cas_uid_key: "cn"
+gitlab_cas_name_key: "cn"
 gitlab_cas_email_key: "mail"
-gitlab_cas_nickname_key: "cn"
-gitlab_cas_location_key: "location"
+# gitlab_cas_nickname_key: "cn"
+# gitlab_cas_location_key: "location"
 # gitlab_cas_first_name_key: "first_name"
 # gitlab_cas_last_name_key: "last_name"
 # gitlab_cas_phone_key: "phone"

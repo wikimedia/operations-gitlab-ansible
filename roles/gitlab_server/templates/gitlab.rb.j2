@@ -1,9 +1,15 @@
 # The URL through which GitLab will be accessed.
 external_url "{{ gitlab_external_url }}"
 
-# gitlab.yml configuration
+# GitLab configuration
 gitlab_rails['time_zone'] = "{{ gitlab_time_zone }}"
 gitlab_rails['backup_keep_time'] = {{ gitlab_backup_keep_time }}
+
+# Users settings
+gitlab_rails['gitlab_default_can_create_group'] = {{ gitlab_users_create_group }}
+gitlab_rails['gitlab_username_changing_enabled'] = {{ gitlab_users_change_username }}
+
+# Email settings
 gitlab_rails['gitlab_email_enabled'] = {{ gitlab_email_enabled }}
 {% if gitlab_email_enabled == "true" %}
 gitlab_rails['gitlab_email_from'] = "{{ gitlab_email_from }}"
@@ -14,12 +20,12 @@ gitlab_rails['gitlab_email_reply_to'] = "{{ gitlab_email_reply_to }}"
 # Default Theme
 gitlab_rails['gitlab_default_theme'] = "{{ gitlab_default_theme }}"
 
-# Whether to redirect http to https.
+# TLS configuration
 nginx['redirect_http_to_https'] = {{ gitlab_redirect_http_to_https }}
 nginx['ssl_certificate'] = "{{ gitlab_ssl_certificate }}"
 nginx['ssl_certificate_key'] = "{{ gitlab_ssl_certificate_key }}"
 
-# The directory where Git repositories will be stored.
+# The directory where Git repositories will be stored
 git_data_dirs({"default" => {"path" => "{{ gitlab_git_data_dir }}"} })
 
 # The directory where Gitlab backups will be stored
