@@ -45,17 +45,16 @@ GitLab Server control:
 * GitLab (as a platform) is installed and configured with provided Ansible playbook which can be found on S&F's GitLab (`git clone git@gitlab.gluzdov.com:wmf_gitlab/ansible.git`)
 * Hosts to deploy GitLab Servers need to be configured in `[gitlab_servers]` section of 'hosts' file (it's an Ansible inventory configuration file)
 * Ansible playbook parameters are set up on host-by-host basis in `host_vars/<hostname>` YAML files
-* List of available playbook parameters can be found in `gitlab_server/defaults/main.yml` file
+* List of predefined playbook parameters can be found in `roles/gitlab_server/defaults/main.yml` file
 * Before running Ansible playbook it needs checking the ability of ssh-ing the target hosts and have sudo permissions there
 * To run Ansible playbook just execute `install-gitlab-server.sh` script
-* Public sign in should be disabled manually in the UI after installation
 
 ## Automated GitLab Runner installation
 
 * GitLab Runner is installed and configured with provided Ansible playbook which can be found on S&F's GitLab (`git clone git@gitlab.gluzdov.com:wmf_gitlab/ansible.git`)
 * Hosts to deploy GitLab Runners need to be configured in `[gitlab_runners]` section of 'hosts' file (it's an Ansible inventory configuration file)
 * Ansible playbook parameters are set up on host-by-host basis in `host_vars/<hostname>` YAML files
-* List of available playbook parameters can be found in `gitlab_runner/defaults/main.yml` file
+* List of predefined playbook parameters can be found in `roles/gitlab_runner/defaults/main.yml` file
 * Before running Ansible playbook it needs checking the ability of ssh-ing the target hosts and have sudo permissions there
 * To run Ansible playbook just execute `install-gitlab-runner.sh` script
 
@@ -72,4 +71,6 @@ GitLab Server control:
 * GitLab Backup and Restore documentation can be found at https://docs.gitlab.com/omnibus/settings/backups.html
 * GitLab Restore for Omnibus installations documentation can be found at https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations
 
-## Further documentation can be found [here](https://docs.google.com/document/d/1JM-hR9GMxHt1OgTRgGjn5O6F8hv5svciiCiWPHOz72g/edit?usp=sharing)
+### Further documentation can be found [here](https://docs.google.com/document/d/1JM-hR9GMxHt1OgTRgGjn5O6F8hv5svciiCiWPHOz72g/edit?usp=sharing)
+
+### How To can be found [here](./HOWTO.md)
