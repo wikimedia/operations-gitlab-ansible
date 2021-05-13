@@ -5,7 +5,7 @@ After=network.target auditd.service
 ConditionPathExists=!{{ gitlab_sshd_config_path }}/sshd_not_to_be_run
 
 [Service]
-EnvironmentFile=-/etc/default/ssh
+EnvironmentFile=-/etc/default/ssh_gitlab
 ExecStartPre=/usr/sbin/sshd -t -f "{{ gitlab_sshd_config_path }}/sshd_gitlab"
 ExecStart=/usr/sbin/sshd -D $SSHD_OPTS -f "{{ gitlab_sshd_config_path }}/sshd_gitlab"
 ExecReload=/usr/sbin/sshd -t -f "{{ gitlab_sshd_config_path }}/sshd_gitlab"
