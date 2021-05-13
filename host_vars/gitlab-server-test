@@ -5,6 +5,7 @@ gitlab_sshd_enable: true
 gitlab_sshd_port: 2222
 gitlab_sshd_listen:
   - 0.0.0.0
+gitlab_cas_url: "https://idp.wmcloud.org"
 gitlab_cas_auto_sign_in: true
 gitlab_self_signed_cert_enable: true
 gitlab_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_domain }}.crt"
