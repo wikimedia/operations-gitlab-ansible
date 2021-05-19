@@ -1,5 +1,6 @@
 #### GitLab Server Installation
 
+* Add URL of the Gitlab Server to the CAS Whitelist
 * Before running the script, check the ssh connectivity to the target server and ability to `sudo` on the System
 * Specify the target server hostname to deploy the GitLab Server in `[gitlab_servers]` section of 'hosts' file;
   It's possible to specify a short decriptive <gitlab_server_name> (like `gitlab-server-prod`) and the corresponding
@@ -35,7 +36,8 @@
 * Enable Prometheus metrics: Admin Area, Settings, Metrics and profiling, Metrics - Prometheus, Enable Prometheus Metrics: `checked`
 * Disable Auto DevOps pipeline: Admin Area, Settings, CI/CD, Continuous Integration and Deployment, Default to Auto DevOps pipeline for all projects: `unchecked`
 * Set abuse reports email: Admin Area, Settings, Reporting, Abuse reports, Abuse reports notification email: set to external abuse reports email
-* Set up RSA SSH keys: Admin Area, Settings, General, Visibility and access controls, RSA SSH keys: setect `must be at least 2048 bits`
-* Forbid DSA SSH keys: Admin Area, Settings, General, Visibility and access controls, DSA SSH keys: setect `are forbidden`
+* Set up RSA SSH keys: Admin Area, Settings, General, Visibility and access controls, RSA SSH keys: select `must be at least 2048 bits`
+* Forbid DSA SSH keys: Admin Area, Settings, General, Visibility and access controls, DSA SSH keys: select `are forbidden`
 * Enable import from Phabricator: Admin Area, Settings, General, Visibility and access controls, Import sources: enable `Phabricator`
 * Disable being OAuth provider: Admin Area, Settings, General, Account and limit, Allow users to register any application to use GitLab as an OAuth provider: `unchecked`
+
