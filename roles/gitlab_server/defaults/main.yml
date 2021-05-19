@@ -92,6 +92,16 @@ gitlab_registry_external_url: "https://{{ gitlab_domain }}:4567"
 gitlab_registry_nginx_ssl_certificate: "{{ gitlab_ssl_certificate }}"
 gitlab_registry_nginx_ssl_certificate_key: "{{ gitlab_ssl_certificate_key }}"
 
+# Monitoring configuration
+gitlab_prometheus_enable: "false"
+gitlab_grafana_enable: "false"
+gitlab_alertmanager_enable: "false"
+
+gitlab_gitlab_exporter_enable: "false"
+gitlab_node_exporter_enable: "false"
+gitlab_postgres_exporter_enable: "false"
+gitlab_redis_exporter_enable: "false"
+
 # SSH GitLab-specific separate daemon configuration
 gitlab_sshd_enable: "true"
 gitlab_sshd_config_path: "/etc/ssh-gitlab"

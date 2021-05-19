@@ -100,6 +100,15 @@ registry_nginx['ssl_certificate'] = "{{ gitlab_registry_nginx_ssl_certificate }}
 registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_nginx_ssl_certificate_key }}"
 {% endif %}
 
+# GitLab monitoring
+prometheus['enable'] = {{ gitlab_prometheus_enable }}
+grafana['enable'] = {{ gitlab_grafana_enable }}
+alertmanager['enable'] = {{ gitlab_alertmanager_enable }}
+gitlab_exporter['enable'] = {{ gitlab_gitlab_exporter_enable }}
+node_exporter['enable'] = {{ gitlab_node_exporter_enable }}
+postgres_exporter['enable'] = {{ gitlab_postgres_exporter_enable }}
+redis_exporter['enable'] = {{ gitlab_redis_exporter_enable }}
+
 {% if gitlab_extra_settings is defined %}
 # Extra configuration
 {% for extra in gitlab_extra_settings %}
