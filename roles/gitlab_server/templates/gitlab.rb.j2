@@ -101,13 +101,43 @@ registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_nginx_ssl_certificat
 {% endif %}
 
 # GitLab monitoring
+{% if gitlab_monitoring_whitelist | default([]) %}
+gitlab_rails['monitoring_whitelist'] = [ "{{ gitlab_monitoring_whitelist | join('", "') }}" ]
+{% endif %}
+{% if gitlab_prometheus_address | default('') %}
+gitlab_rails['prometheus_address'] = '{{ gitlab_prometheus_address }}'
+{% endif %}
+
 prometheus['enable'] = {{ gitlab_prometheus_enable }}
 grafana['enable'] = {{ gitlab_grafana_enable }}
 alertmanager['enable'] = {{ gitlab_alertmanager_enable }}
+
 gitlab_exporter['enable'] = {{ gitlab_gitlab_exporter_enable }}
 node_exporter['enable'] = {{ gitlab_node_exporter_enable }}
 postgres_exporter['enable'] = {{ gitlab_postgres_exporter_enable }}
 redis_exporter['enable'] = {{ gitlab_redis_exporter_enable }}
+
+{% if gitlab_gitlab_exporter_enable == "true" and gitlab_gitlab_exporter_listen | default('') %}
+gitlab_exporter['listen_address'] = '{{ gitlab_gitlab_exporter_listen }}'
+{% endif %}
+{% if gitlab_node_exporter_enable == "true" and gitlab_node_exporter_listen | default('') %}
+node_exporter['listen_address'] = '{{ gitlab_node_exporter_listen }}'
+{% endif %}
+{% if gitlab_postgres_exporter_enable == "true" and gitlab_postgres_exporter_listen | default('') %}
+postgres_exporter['listen_address'] = '{{ gitlab_postgres_exporter_listen }}'
+{% endif %}
+{% if gitlab_redis_exporter_enable == "true" and gitlab_redis_exporter_listen | default('') %}
+redis_exporter['listen_address'] = '{{ gitlab_redis_exporter_listen }}'
+{% endif %}
+{% if gitlab_workhorse_exporter_listen | default('') %}
+gitlab_workhorse['prometheus_listen_addr'] = "{{ gitlab_workhorse_exporter_listen | default('') }}"
+{% endif %}
+{% if gitlab_gitaly_exporter_listen | default('') %}
+gitaly['prometheus_listen_addr'] = "{{ gitlab_gitaly_exporter_listen }}"
+{% endif %}
+{% if gitlab_sidekiq_exporter_listen | default('') %}
+sidekiq['listen_addr'] = "{{ gitlab_sidekiq_exporter_listen }}"
+{% endif %}
 
 {% if gitlab_extra_settings is defined %}
 # Extra configuration
@@ -160,7 +190,7 @@ gitlab_rails['omniauth_providers'] = [
     "label" => "{{ gitlab_cas_label }}",
     "args" => {
 {% if gitlab_cas_uid_field | default(false) %}
-      "uid_key" => '{{ gitlab_cas_uid_field }}',
+      "uid_field" => '{{ gitlab_cas_uid_field }}',
 {% endif %}
 {% if gitlab_cas_uid_key | default(false) %}
       "uid_key" => '{{ gitlab_cas_uid_key }}',
