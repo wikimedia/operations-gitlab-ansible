@@ -13,3 +13,6 @@ gitlab_ssl_certificate: /etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt
 gitlab_ssl_certificate_key: /etc/acmecerts/gitlab/live/ec-prime256v1.key
 gitlab_registry_nginx_ssl_certificate: /etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt
 gitlab_registry_nginx_ssl_certificate_key: /etc/acmecerts/gitlab/live/ec-prime256v1.key
+gitlab_gitlab_exporter_enable: "true"
+gitlab_postgres_exporter_enable: "true"
+gitlab_redis_exporter_enable: "true"
