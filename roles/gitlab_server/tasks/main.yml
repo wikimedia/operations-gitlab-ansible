@@ -108,6 +108,12 @@
     group: root
     mode: 0640
 
+- name: Setup GitLab user
+  user:
+    name: git
+    password: "*"
+    update_password: always
+
 - name: Install GitLab sshd - create config directory
   file:
     path: "{{ gitlab_sshd_config_path }}"
