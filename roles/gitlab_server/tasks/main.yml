@@ -58,6 +58,11 @@
     gitlab_package_name: "{{ gitlab_edition }}{{ gitlab_package_version_separator }}{{ gitlab_version }}"
   when: gitlab_version | default(false)
 
+- name: Generate random password
+  set_fact:
+    root_pass: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
+  when: not gitlab_file.stat.exists
+
 - name: Install GitLab
   package:
     name: "{{ gitlab_package_name | default(gitlab_edition) }}"
@@ -70,6 +75,8 @@
   command: >
     gitlab-ctl reconfigure
     creates=/var/opt/gitlab/bootstrapped
+  environment:
+    GITLAB_ROOT_PASSWORD: "{{ root_pass }}"
   failed_when: false
 
 - name: Create GitLab SSL configuration folder
