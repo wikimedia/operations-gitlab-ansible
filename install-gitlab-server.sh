@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -eu
+
+export ANSIBLE_NOCOWS=1
+
 type -p realpath &>/dev/null ||
 realpath() {
     [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
