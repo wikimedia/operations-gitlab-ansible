@@ -13,7 +13,9 @@ gitlab_install_dependencies: "false"
 
 # Backups
 gitlab_backup_path: "/var/opt/gitlab/backups"
-gitlab_backup_keep_time: "604800"
+
+# 3 days - see https://phabricator.wikimedia.org/T274463
+gitlab_backup_keep_time: "259200"
 gitlab_backup_config_keep_num: "6"
 
 gitlab_backup_enable: "true"
