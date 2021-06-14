@@ -161,7 +161,7 @@ gitlab_sshd_max_auth_tries: 3
 
 # CAS integration
 gitlab_cas_enable: "true"
-gitlab_cas_external: "true"
+gitlab_cas_external: "false"
 gitlab_cas_auto_sign_in: "false"
 gitlab_cas_auto_create_users: "true"
 gitlab_cas_url: "https://idp.wikimedia.org"
