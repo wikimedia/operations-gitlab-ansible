@@ -88,6 +88,14 @@ gitlab_email_from: "gitlab@{{ gitlab_domain }}"
 gitlab_email_display_name: "Gitlab"
 gitlab_email_reply_to: "gitlab@{{ gitlab_domain }}"
 
+# Default features for repos (these can still be toggled back on by users, but
+# defaults matter).  See:
+#   - https://phabricator.wikimedia.org/T264231
+#   - https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L131
+gitlab_default_projects_features_issues: "false"
+gitlab_default_projects_features_wiki: "false"
+gitlab_default_projects_features_snippets: "false"
+
 # Registry configuration
 gitlab_registry_enable: "false"
 gitlab_registry_external_url: "https://{{ gitlab_domain }}:4567"

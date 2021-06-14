@@ -25,6 +25,17 @@ nginx['redirect_http_to_https'] = {{ gitlab_redirect_http_to_https }}
 nginx['ssl_certificate'] = "{{ gitlab_ssl_certificate }}"
 nginx['ssl_certificate_key'] = "{{ gitlab_ssl_certificate_key }}"
 
+# Default feature settings:
+{% if gitlab_default_projects_features_issues == "false" %}
+gitlab_rails['gitlab_default_projects_features_issues'] = false
+{% endif %}
+{% if gitlab_default_projects_features_wiki == "false" %}
+gitlab_rails['gitlab_default_projects_features_wiki'] = false
+{% endif %}
+{% if gitlab_default_projects_features_snippets == "false" %}
+gitlab_rails['gitlab_default_projects_features_snippets'] = false
+{% endif %}
+
 # The directory where Git repositories will be stored
 git_data_dirs({"default" => {"path" => "{{ gitlab_git_data_dir }}"} })
 
