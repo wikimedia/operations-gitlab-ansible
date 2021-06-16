@@ -204,3 +204,19 @@
   systemd:
     daemon_reload: yes
   when: not gitlab_sshd_enable|bool
+
+- name: Create bacula backup directory for GitLab data backup # stores only the latest backup, see: https://gerrit.wikimedia.org/r/c/operations/puppet/+/697850
+  file:
+    path: "{{ gitlab_backup_path }}/latest"
+    state: directory
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Create bacula backup directory for GitLab config backup # stores only the latest backup, see: https://gerrit.wikimedia.org/r/c/operations/puppet/+/697850
+  file:
+    path: /etc/gitlab/config_backup/latest
+    state: directory
+    owner: root
+    group: root
+    mode: 0600
