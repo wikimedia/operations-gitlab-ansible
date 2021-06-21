@@ -61,7 +61,6 @@
 - name: Generate random password
   set_fact:
     root_pass: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
-  when: not gitlab_file.stat.exists
 
 - name: Install GitLab
   package:
