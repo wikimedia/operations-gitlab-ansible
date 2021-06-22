@@ -21,7 +21,7 @@ To make a successfull GitLab upgrade:
 - make both full GitLab data and full configuration data backups before upgrading
 - to reduce your upgrade time, it is possible to skip automatic (database only) backup during upgrade using `sudo touch /etc/gitlab/skip-auto-backup`; only do this if you have made full backup on the previous step
 - run `apt-get update` before downloading any new packages
-— preload to-be-installed GitLab CE packages before upgrading (using `apt-get install --download-only`)
+- preload to-be-installed GitLab CE packages before upgrading (using `apt-get install --download-only`)
 - if you have GitLab Runners connected to your GitLab Server, it is recommended to pause all runners and wait until all jobs are finished before starting the upgrade
 - in sequence, run each upgrade and required migrations on the upgrade path; check that all background migrations are fully finished and background migration queue is empty before starting each step
 - make sure that GitLab Server is up and running after upgrade; please give it several minutes to calm down
@@ -32,3 +32,9 @@ How to check for remaining background migrations (prints the current size of the
 ```
 gitlab-rails runner -e production 'puts Gitlab::BackgroundMigration.remaining'
 ```
+
+Recommended upgrade cadence:
+
+- patch upgrades: ASAP
+- minor upgrades (issued monthly): every 3 months
+- major upgrades (issued annually): once per year, when needed
