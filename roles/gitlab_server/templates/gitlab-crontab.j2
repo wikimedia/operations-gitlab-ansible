@@ -21,7 +21,7 @@
 {% if gitlab_backup_enable == "true" %}
 
 # Full Backup
-4 0 * * *     root  /usr/bin/gitlab-backup create CRON=1 STRATEGY=copy GZIP_RSYNCABLE={{ gitlab_backup_gzip_rsyncable }} SKIP=builds,artifacts,registry GITLAB_BACKUP_MAX_CONCURRENCY={{ gitlab_backup_max_concurrency }} GITLAB_BACKUP_MAX_STORAGE_CONCURRENCY={{ gitlab_backup_max_storage_concurrency }} && ls -l -t {{ gitlab_backup_path }}/*.tar | head -n1 | xargs -i cp {} {{ gitlab_backup_path }}/latest/latest.tar
+4 0 * * *     root  /usr/bin/gitlab-backup create CRON=1 STRATEGY=copy GZIP_RSYNCABLE={{ gitlab_backup_gzip_rsyncable }} SKIP=builds,artifacts,registry GITLAB_BACKUP_MAX_CONCURRENCY={{ gitlab_backup_max_concurrency }} GITLAB_BACKUP_MAX_STORAGE_CONCURRENCY={{ gitlab_backup_max_storage_concurrency }} && ls -t {{ gitlab_backup_path }}/*.tar | head -n1 | xargs -i cp {} {{ gitlab_backup_path }}/latest/latest.tar
 {% endif %}
 {% if gitlab_backup_enable_partial == "true" %}
 
@@ -31,6 +31,6 @@
 {% if gitlab_backup_enable_config == "true" %}
 
 # Configuration and secrets backup
-0 0 * * *     root  /usr/bin/gitlab-ctl backup-etc >/dev/null && (ls -tp | grep -v '/$' | tail -n +{{ gitlab_backup_config_keep_num | int }} | xargs -d '\n' -r rm --) && ls -l -t /etc/gitlab/config_backup/*.tar | head -n1 | xargs -i cp {} /etc/gitlab/config_backup/latest/latest.tar
+0 0 * * *     root  /usr/bin/gitlab-ctl backup-etc >/dev/null && (ls -tp | grep -v '/$' | tail -n +{{ gitlab_backup_config_keep_num | int }} | xargs -d '\n' -r rm --) && ls -t /etc/gitlab/config_backup/*.tar | head -n1 | xargs -i cp {} /etc/gitlab/config_backup/latest/latest.tar
 {% endif %}
 {% endif %}
