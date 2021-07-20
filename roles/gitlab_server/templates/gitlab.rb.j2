@@ -25,6 +25,37 @@ nginx['redirect_http_to_https'] = {{ gitlab_redirect_http_to_https }}
 nginx['ssl_certificate'] = "{{ gitlab_ssl_certificate }}"
 nginx['ssl_certificate_key'] = "{{ gitlab_ssl_certificate_key }}"
 
+# Nginx access logging in JSON - see https://phabricator.wikimedia.org/T274462
+#
+# This is hacky: The whole string is just dumped into a template between
+# single-quotes, so we have to balance the quotes here.  Note that escape=json
+# is a parameter setting json escaping for variables, not part of the log
+# format itself.
+#
+# Relevant docs:
+#
+#   - https://docs.gitlab.com/omnibus/settings/logs.html#using-a-custom-nginx-log-format
+#   - https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format
+nginx['log_format'] = 'escape=json\' \'@cee: {\'
+    \'"timestamp":"$time_iso8601",\'
+    \'"client.ip":"$remote_addr",\'
+    \'"user.name":"$remote_user",\'
+    \'"url.path":"$request_uri",\'
+    \'"url.domain":"$host",\'
+    \'"host.name":"$hostname",\'
+    \'"http.request.method":"$request_method",\'
+    \'"http.request.headers.referer":"$http_referer",\'
+    \'"http.response.status_code":"$status",\'
+    \'"http.response.body.bytes":"$body_bytes_sent",\'
+    \'"user_agent.original":"$http_user_agent",\'
+    \'"event.category":["network","web"],\'
+    \'"event.dataset":"nginx.access",\'
+    \'"event.kind":"event",\'
+    \'"event.type":["acccess","connection"],\'
+    \'"service.type":"nginx",\'
+    \'"ecs.version":"1.7.0"\'
+  \'}'
+
 # Default feature settings:
 {% if gitlab_default_projects_features_issues == "false" %}
 gitlab_rails['gitlab_default_projects_features_issues'] = false
