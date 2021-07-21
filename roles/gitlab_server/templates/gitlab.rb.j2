@@ -96,6 +96,18 @@ nginx['listen_port'] = "{{ gitlab_nginx_listen_port }}"
 nginx['listen_https'] = {{ gitlab_nginx_listen_https }}
 {% endif %}
 
+# Allow prometheus to scrape GitLab Nginx metrics T275170
+## https://docs.gitlab.com/ee/administration/monitoring/prometheus/#using-an-external-prometheus-server
+## TODO: don't hardcode allowed range here, will be fixed in puppet
+{% if gitlab_monitoring_whitelist is defined %}
+nginx['status']['options'] = {
+      "server_tokens" => "off",
+      "access_log" => "off",
+      "allow" => "10.0.0.0/8",
+      "deny" => "all",
+}
+{% endif %}
+
 # Use smtp instead of sendmail/postfix
 # More details and example configuration at
 # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/smtp.md
