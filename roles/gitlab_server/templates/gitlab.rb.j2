@@ -190,8 +190,12 @@ gitlab_workhorse['prometheus_listen_addr'] = "{{ gitlab_workhorse_exporter_liste
 gitaly['prometheus_listen_addr'] = "{{ gitlab_gitaly_exporter_listen }}"
 {% endif %}
 {% if gitlab_sidekiq_exporter_listen | default('') %}
-sidekiq['listen_addr'] = "{{ gitlab_sidekiq_exporter_listen }}"
+sidekiq['listen_address'] = "{{ gitlab_sidekiq_exporter_listen }}"
 {% endif %}
+{% if gitlab_puma_exporter_listen | default('') %}
+puma['exporter_address'] = "{{ gitlab_puma_exporter_listen }}"
+{% endif %}
+
 
 {% if gitlab_extra_settings is defined %}
 # Extra configuration
