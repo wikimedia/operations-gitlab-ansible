@@ -170,6 +170,7 @@ gitlab_exporter['enable'] = {{ gitlab_gitlab_exporter_enable }}
 node_exporter['enable'] = {{ gitlab_node_exporter_enable }}
 postgres_exporter['enable'] = {{ gitlab_postgres_exporter_enable }}
 redis_exporter['enable'] = {{ gitlab_redis_exporter_enable }}
+puma['exporter_enabled'] = {{ gitlab_puma_exporter_enabled }}
 
 {% if gitlab_gitlab_exporter_enable == "true" and gitlab_gitlab_exporter_listen | default('') %}
 gitlab_exporter['listen_address'] = '{{ gitlab_gitlab_exporter_listen }}'
@@ -192,8 +193,9 @@ gitaly['prometheus_listen_addr'] = "{{ gitlab_gitaly_exporter_listen }}"
 {% if gitlab_sidekiq_exporter_listen | default('') %}
 sidekiq['listen_address'] = "{{ gitlab_sidekiq_exporter_listen }}"
 {% endif %}
-{% if gitlab_puma_exporter_listen | default('') %}
+{% if gitlab_puma_exporter_enabled == "true" and gitlab_puma_exporter_listen | default('') %}
 puma['exporter_address'] = "{{ gitlab_puma_exporter_listen }}"
+puma['exporter_port'] = "{{ gitlab_puma_exporter_port }}"
 {% endif %}
 
 

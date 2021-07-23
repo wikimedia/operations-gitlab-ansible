@@ -111,6 +111,7 @@ gitlab_gitlab_exporter_enable: "false"
 gitlab_node_exporter_enable: "false"
 gitlab_postgres_exporter_enable: "false"
 gitlab_redis_exporter_enable: "false"
+gitlab_puma_exporter_enabled: "false"
 
 gitlab_monitoring_whitelist:
   - 127.0.0.0/8
@@ -124,6 +125,7 @@ gitlab_workhorse_exporter_listen: "{{ ':'.join((hostvars[inventory_hostname]['an
 gitlab_gitaly_exporter_listen: "{{ ':'.join((hostvars[inventory_hostname]['ansible_default_ipv4']['address'], '9236')) }}"
 gitlab_sidekiq_exporter_listen: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 gitlab_puma_exporter_listen: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+gitlab_puma_exporter_port: "8083"
 
 # SSH GitLab-specific separate daemon configuration
 gitlab_sshd_enable: "true"

@@ -16,3 +16,4 @@ gitlab_registry_nginx_ssl_certificate_key: /etc/acmecerts/gitlab/live/ec-prime25
 gitlab_gitlab_exporter_enable: "true"
 gitlab_postgres_exporter_enable: "true"
 gitlab_redis_exporter_enable: "true"
+gitlab_puma_exporter_enabled: "true"
