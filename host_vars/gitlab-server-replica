@@ -1,0 +1,19 @@
+---
+gitlab_domain: gitlab-replica.wikimedia.org
+gitlab_backup_path: /srv/gitlab-backup
+gitlab_sshd_enable: true
+gitlab_sshd_port: 22
+gitlab_sshd_listen:
+  - 208.80.153.105
+  - 2620:0:860:4:208:80:153:105
+gitlab_cas_url: "https://idp.wikimedia.org"
+gitlab_cas_auto_sign_in: true
+gitlab_self_signed_cert_enable: false
+gitlab_ssl_certificate: /etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt
+gitlab_ssl_certificate_key: /etc/acmecerts/gitlab/live/ec-prime256v1.key
+gitlab_registry_nginx_ssl_certificate: /etc/acmecerts/gitlab/live/ec-prime256v1.chained.crt
+gitlab_registry_nginx_ssl_certificate_key: /etc/acmecerts/gitlab/live/ec-prime256v1.key
+gitlab_gitlab_exporter_enable: "true"
+gitlab_postgres_exporter_enable: "true"
+gitlab_redis_exporter_enable: "true"
+gitlab_puma_exporter_enabled: "true"

@@ -1,7 +1,10 @@
 [gitlab_servers]
-gitlab-server-test ansible_host=gitlab-ansible-test.gitlab-test.eqiad1.wikimedia.cloud
+#gitlab-server-test ansible_host=gitlab-ansible-test.gitlab-test.eqiad1.wikimedia.cloud
+gitlab-server-prod  ansible_host=gitlab1001.wikimedia.org
+gitlab-server-replica ansible_host=gitlab2001.wikimedia.org
 
 [gitlab_runners]
 gitlab-runner-test ansible_host=wmf-gitlab-test.gluzdov.com
+
 [gitlab_servers:vars]
 ansible_python_interpreter=/usr/bin/python3
