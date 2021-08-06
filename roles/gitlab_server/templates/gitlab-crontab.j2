@@ -31,6 +31,6 @@
 {% if gitlab_backup_enable_config == "true" %}
 
 # Configuration and secrets backup
-0 0 * * *     root  /usr/bin/gitlab-ctl backup-etc >/dev/null && (find /etc/gitlab/config_backup/ -maxdepth 1 -type f -name 'gitlab_config*.tar' -mtime +{{ gitlab_backup_config_keep_num | int }} | xargs -d '\n' -r rm --) && ls -t /etc/gitlab/config_backup/gitlab_config*.tar | head -n1 | xargs -i cp {} /etc/gitlab/config_backup/latest/latest.tar
+0 0 * * *     root  /usr/bin/gitlab-ctl backup-etc 2> >(grep -v "In GitLab 14.0 we will begin removing all configuration backups") >/dev/null && (find /etc/gitlab/config_backup/ -maxdepth 1 -type f -name 'gitlab_config*.tar' -mtime +{{ gitlab_backup_config_keep_num | int }} | xargs -d '\n' -r rm --) && ls -t /etc/gitlab/config_backup/gitlab_config*.tar | head -n1 | xargs -i cp {} /etc/gitlab/config_backup/latest/latest.tar
 {% endif %}
 {% endif %}
