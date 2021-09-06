@@ -106,13 +106,10 @@
     mode: 0600
   notify: restart gitlab
 
-- name: Create GitLab crontab
-  template:
-    src: "{{ gitlab_crontab_template }}"
-    dest: /etc/cron.d/gitlab
-    owner: root
-    group: root
-    mode: 0640
+- name: Remove GitLab crontab (replaced by puppet see T283076)
+  file:
+    path: /etc/cron.d/gitlab
+    state: absent
 
 - name: Setup GitLab user
   user:
